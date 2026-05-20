@@ -147,12 +147,94 @@ Comme l'application s'exécute sur plusieurs serveurs d'application, vous devez 
 
 <------------------->
 
+Dans la barre de recherche de la console de gestion AWS, saisissez et sélectionnez EC2 pour ouvrir la console Amazon EC2.
+Dans le volet de navigation de gauche, sélectionnez Équilibreurs de charge. (Vous devez peut-être faire défiler l'écran vers le bas voir cette option.)
+Choisissez Créer un équilibreur de charge.
+Plusieurs types d'équilibreurs de charge s'affichent. Lisez les descriptions de chacun d'eux pour comprendre leurs capacités.
+Pour Application Load Balancer, choisissez Créer.
+Dans la section Basic Configuration (Configuration de base), pour Nom de l'équilibreur de charge, saisissez Inventory-LB.
+Dans la section Mappage réseau, configurez les options suivantes :
+Pour VPC, sélectionnez Lab VPC (VPC de l'atelier).
+Important : veillez à sélectionner Lab VPC (VPC de l'atelier). Ce n'est probablement pas l'option sélectionnée par défaut.
+À présent, vous allez indiquer les sous-réseaux que l'équilibreur de charge doit utiliser. Il s'agit d'un équilibreur de charge public. Par conséquent, sélectionnez les deux sous-réseaux publics.
+
+Pour Mappings (Mappages), sélectionnez la première zone de disponibilité, puis le sous-réseau public qui s'affiche.
+Pour Mappings (Mappages), sélectionnez la deuxième zone de disponibilité, puis le sous-réseau public qui s'affiche.
+Vous devriez maintenant avoir deux sous-réseaux : Sous-réseau public 1 et Sous-réseau public 2. Si ce n'est pas le cas, revenez en arrière et réessayez la configuration.
+Dans la section Groupes de sécurité, sélectionnez l'hyperlien Créer un groupe de sécurité. Ce lien ouvre un nouvel onglet de navigateur. 
+Sur la page Créer un groupe de sécurité, dans la section Détails de base, configurez les options suivantes pour créer le groupe de sécurité :
+
+Nom du groupe de sécurité : saisissez Inventory-LB.
+Description : saisissez Enable web access to load balancer.
+VPC : sélectionnez Lab VPC (VPC de l'atelier) dans la liste déroulante.
+Dans la section Règles entrantes, sélectionnez Ajouter une règle et configurez les options suivantes :
+Type : HTTP
+Source : Anywhere-IPv4
+Pour Règles entrantes, choisissez de nouveau Ajouter une règle et configurez les options suivantes :
+Type : HTTPS
+
+Source : Anywhere-IPv4
+Sélectionnez Créer un groupe de sécurité.
+Vous allez ensuite assigner le groupe de sécurité à l'équilibreur de charge.
+Revenez à l'onglet du navigateur dans lequel vous êtes toujours en train de configurer l'équilibreur de charge et configurez les options suivantes :
+Dans la section Groupes de sécurité, cliquez sur l'icône d'actualisation .
+Dans la liste déroulante Groupes de sécurité, sélectionnez le groupe de sécurité Inventory-LB que vous venez de créer.
+Sélectionnez ensuite le X du groupe de sécurité par défaut afin qu'Inventory-LB soit le seul groupe de sécurité choisi.
+Dans la section Écouteurs et routage, sélectionnez le lien Créer un groupe cible.
+Un nouvel onglet de navigateur s'ouvre. 
+
+Analyse : les groupes cibles définissent où le trafic entrant dans l'équilibreur de charge doit être envoyé. L'Application Load Balancer peut envoyer le trafic vers plusieurs groupes cibles en fonction de l'URL de la demande entrante. Par exemple, il peut envoyer les demandes provenant d'applications mobiles vers un autre ensemble de serveurs. Votre application web utilise un seul groupe cible.
+Pour l'étape 1 : Specify group details (Spécifier les détails du groupe), configurez les options ci-dessous.
+Dans la section Basic configuration (Configuration de base), configurez les options suivantes :
+Choose a target type (Choisir un type de cible) : sélectionnez Instances.
+Target group name (Nom du groupe cible) : saisissez Inventory-App.
+VPC : vérifiez que l'option Lab VPC (VPC de l'atelier) est sélectionnée.
+Dans la section Vérifications de l'état, développez  Advanced health check settings (Paramètres avancés de vérification de l'état) et configurez les options suivantes :
+Remarque : l'Application Load Balancer réalise automatiquement des vérifications de l'état pour toutes les instances, afin de s'assurer qu'elles répondent aux demandes. Il est recommandé de conserver les paramètres par défaut, mais vous allez les rendre légèrement plus rapides dans le cadre de cet atelier.
+Healthy threshold (Seuil de bonne santé) : saisissez 2.
+Interval (Intervalle) : saisissez 10 (secondes).
+Les configurations que vous avez choisies entraînent l'exécution d'une vérification de l'état toutes les 10 secondes. Si l'instance répond correctement deux fois de suite, elle est considérée comme saine.
+
+Choisissez Suivant. 
+L'étape 2 : Register targets (Enregistrement des cibles) apparaît.
+Remarque : les cibles sont les instances individuelles qui répondent aux demandes de l'équilibreur de charge.
+Vous ne disposez pas encore d'instances d'application web, vous pouvez donc passer cette étape.
+Passez en revue les paramètres et sélectionnez Create target group (Créer un groupe cible).
+Le message Successfully created the target group (Groupe cible créé avec succès) s'affiche.
+Revenez dans l'onglet du navigateur où vous avez commencé à configurer l'équilibreur de charge.
+Dans la section Écouteurs et routage, cliquez sur l'icône d'actualisation .
+Dans la liste déroulante Default action (Action par défaut), choisissez le groupe cible Inventory-App que vous venez de créer.
+Faites défiler l'écran jusqu'au bas de la page, puis sélectionnez Créer un équilibreur de charge.
+L'équilibreur de charge a été créé avec succès.
+Sélectionnez View load balancer (Afficher l'équilibreur de charge).
+
 
 
 <img width="915" height="369" alt="image" src="https://github.com/user-attachments/assets/1da50020-4203-45b8-982e-fed72aa09e4e" />
 
 
 <------------------>
+
+
+
+<img width="1288" height="433" alt="image" src="https://github.com/user-attachments/assets/08cc4798-c9c3-4f38-bc70-8ef1aba97d23" />
+
+
+
+<------------------>
+
+
+
+
+<img width="1001" height="607" alt="image" src="https://github.com/user-attachments/assets/48251042-9fa0-4bab-8de4-3519f0a2f85f" />
+
+
+
+<----------------->
+
+
+
+
 
 
 
