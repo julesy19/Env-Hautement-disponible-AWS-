@@ -121,6 +121,52 @@ Par défaut, les groupes de sécurité autorisent la totalité du trafic sortant
 
 <---------------->
 
+Dans le volet de navigation de gauche, sélectionnez Groupes de sécurité.
+Sélectionnez Inventory-DB.
+
+
+<img width="1104" height="181" alt="image" src="https://github.com/user-attachments/assets/7f4015b0-9bf2-46f7-8175-9a114de6ce2e" />
+
+
+<------------------>
+
+
+
+<img width="1496" height="402" alt="image" src="https://github.com/user-attachments/assets/bfa2440a-9953-4502-b316-8519ac605892" />
+
+
+
+# Tâche 2 : création d'un Application Load Balancer
+
+Pour concevoir une application hautement disponible, il est recommandé de lancer les ressources dans plusieurs zones de disponibilité. Les zones de disponibilité sont des centres de données (ou des groupes de centres de données) physiquement séparés dans la même région. Si vous exécutez vos applications dans plusieurs zones de disponibilité, vous bénéficiez d'une plus grande disponibilité en cas de défaillance d'un centre de données.
+
+Comme l'application s'exécute sur plusieurs serveurs d'application, vous devez trouver un moyen de répartir le trafic entre ces serveurs. Pour cela, vous pouvez utiliser un équilibreur de charge. Cet équilibreur de charge surveille également l'état des instances et n'envoie des demandes qu'aux instances saines.
+
+<img width="819" height="487" alt="image" src="https://github.com/user-attachments/assets/1a5e1f13-4a89-45c2-bf50-95a7012c3a28" />
+
+
+<------------------->
+
+
+
+<img width="915" height="369" alt="image" src="https://github.com/user-attachments/assets/1da50020-4203-45b8-982e-fed72aa09e4e" />
+
+
+<------------------>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
