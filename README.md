@@ -235,6 +235,157 @@ Sélectionnez View load balancer (Afficher l'équilibreur de charge).
 
 
 
+<img width="939" height="236" alt="image" src="https://github.com/user-attachments/assets/5c6edd24-d91b-4a13-b021-9bea30cd327c" />
+
+
+
+<------------------------->
+
+
+
+
+<img width="821" height="206" alt="image" src="https://github.com/user-attachments/assets/1f87b6d5-8dcd-4515-9e94-cd4a1ef00210" />
+
+
+
+
+<-------------------------->
+
+
+
+# Tâche 4 : mise à jour des groupes de sécurité
+L'application que vous avez déployée possède une architecture à trois niveaux. Vous allez maintenant configurer les groupes de sécurité pour appliquer ces niveaux :
+
+
+
+<img width="526" height="207" alt="image" src="https://github.com/user-attachments/assets/6bf40a07-cb59-4d80-95ae-936669f3e816" />
+
+
+<------------------>
+
+
+Tâche 4.1 : configuration du groupe de sécurité de l'équilibreur de charge
+Vous avez déjà configuré le groupe de sécurité de l'équilibreur de charge lorsque vous avez créé ce dernier. Il accepte tout le trafic HTTP et HTTPS entrant.
+
+L'équilibreur de charge a été configuré pour transférer les demandes entrantes à un groupe cible. Quand Auto Scaling lance de nouvelles instances, il ajoute automatiquement ces instances au groupe cible.
+
+
+ 
+
+# Tâche 4.2 : configuration du groupe de sécurité de l'application
+Le groupe de sécurité de l'application a été fourni dans le cadre de la configuration de l'atelier. Vous allez maintenant le configurer pour qu'il accepte uniquement le trafic entrant de l'équilibreur de charge.
+
+Dans le volet de navigation de gauche, sélectionnez Groupes de sécurité.
+
+Sélectionnez Inventory-App.
+
+Sélectionnez l'onglet Règles entrantes.
+
+Le groupe de sécurité est actuellement vide. Vous allez maintenant ajouter une règle pour accepter le trafic HTTP entrant de l'équilibreur de charge. Il n'est pas nécessaire de configurer le trafic HTTPS, car l'équilibreur de charge a été configuré pour transférer les demandes HTTPS via HTTP. Cette pratique décharge la sécurité sur l'équilibreur de charge, ce qui réduit la somme de travail requise par les serveurs d'application individuels.
+
+Sélectionnez Modifier les règles entrantes.
+Sur la page Modifier les règles entrantes, sélectionnez Ajouter une règle et configurez les options suivantes :
+Pour Type, choisissez HTTP.
+Pour Port, saisissez 80.
+Pour Source, configurez les options suivantes :
+Sélectionnez la barre de recherche à droite de l'option Personnalisé.
+Supprimez le contenu actuel.
+Saisissez sg.
+Dans la liste qui s'affiche, sélectionnez Inventory-LB.
+Pour Description, saisissez Traffic from load balancer.
+Choisissez Enregistrer les règles.
+Les serveurs d'application peuvent désormais recevoir le trafic de l'équilibreur de charge. Cela inclut les vérifications de l'état que l'équilibreur de charge effectue automatiquement.
+
+
+
+
+<img width="821" height="218" alt="image" src="https://github.com/user-attachments/assets/3ccda90b-c85a-47e7-8cbd-7f9d6ccb9e1c" />
+
+
+
+<------------------------------------>
+
+
+
+# Tâche 4.3 : configuration du groupe de sécurité de la base de données
+
+Vous allez maintenant configurer le groupe de sécurité de la base de données pour qu'il n'accepte que le trafic entrant en provenance des serveurs d'application.
+Dans la liste Groupes de sécurité, sélectionnez Inventory-DB et veillez à ce qu'aucun autre groupe de sécurité ne soit sélectionné.
+La règle existante autorise le trafic sur le port 3306 (utilisé par MySQL) à partir de n'importe quelle adresse IP au sein du VPC. Il s'agit d'une bonne règle, mais la sécurité peut encore être renforcée.
+
+Dans l'onglet Règles entrantes, sélectionnez Modifier les règles entrantes et configurez les options suivantes :
+Pour supprimer la règle existante, sélectionnez Supprimer.
+Sélectionnez Ajouter une règle.
+Pour Type, sélectionnez MYSQL/Aurora.
+Pour Source, configurez les options suivantes :
+Sélectionnez la barre de recherche à droite de l'option Personnalisé.
+Saisissez sg.
+Dans la liste déroulante, sélectionnez Inventory-App.
+Pour Description, saisissez Traffic from application servers.
+Choisissez Enregistrer les règles.
+Vous avez maintenant configuré la sécurité à trois niveaux. Chaque élément du niveau accepte le trafic du niveau supérieur uniquement.
+En outre, l'utilisation de sous-réseaux privés signifie qu'il existe deux barrières de sécurité entre Internet et les ressources de votre application. Cette architecture correspond à la bonne pratique consistant à appliquer plusieurs couches de sécurité.
+
+
+
+
+<img width="808" height="239" alt="image" src="https://github.com/user-attachments/assets/c9c0cefd-15c1-43bf-9a40-eafa5eeb2a9d" />
+
+
+
+
+Vous avez maintenant configuré la sécurité à trois niveaux. Chaque élément du niveau accepte le trafic du niveau supérieur uniquement.
+En outre, l'utilisation de sous-réseaux privés signifie qu'il existe deux barrières de sécurité entre Internet et les ressources de votre application. Cette architecture correspond à la bonne pratique consistant à appliquer plusieurs couches de sécurité.
+
+
+
+<----------------->
+
+
+# Tâche 5 : test de l'application
+
+L'application est maintenant prête à être testée.
+Au cours de cette tâche, vous allez vérifier que votre application web est en cours d'exécution. Vous allez également vérifier qu'elle est hautement disponible.
+Dans le volet de navigation de gauche, sélectionnez Groupes cibles.
+Sélectionnez Inventory-App.
+Sélectionnez l'onglet Cibles.
+Il doit répertorier deux cibles enregistrées. La colonne État de santé montre le résultat de la vérification de l'état de l'équilibreur de charge qui a été réalisée sur les instances.
+Dans la zone Registered targets (Cibles enregistrées), cliquez sur l'icône d'actualisation  jusqu'à ce que l'état des deux instances soit Sain.
+Si l'état ne devient pas Sain, demandez à votre formateur de vous aider à diagnostiquer la configuration.
+Vous allez tester l'application en la connectant à l'équilibreur de charge, qui enverra ensuite votre demande à l'une des instances EC2. Vous allez d'abord extraire le nom DNS de l'équilibreur de charge.
+Dans le volet de navigation de gauche, choisissez Équilibreurs de charge, puis sur Inventory-LB.
+Dans l'onglet Détails situé dans la moitié inférieure de la fenêtre, copiez le nom DNS dans le presse-papiers.
+Le nom doit ressembler à Inventory-LB-xxxx.elb.amazonaws.com.
+Dans un nouvel onglet de navigateur web, collez le nom DNS du presse-papiers et appuyez sur Entrée.
+L'équilibreur de charge a transféré votre demande à l'une des instances EC2. L'ID de l'instance et la zone de disponibilité sont visibles en bas de la page web.
+Rechargez la page  dans le navigateur web. Vous devriez remarquer que l'ID de l'instance et la zone de disponibilité changent parfois entre deux instances.
+Lorsque cette application web s'affiche, le flux de données sur le réseau est le suivant :
+
+
+
+
+<img width="816" height="324" alt="image" src="https://github.com/user-attachments/assets/27d0e7a6-3836-470c-b814-890ea8502b5a" />
+
+
+<--------------------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
