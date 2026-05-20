@@ -503,6 +503,13 @@ initialisation d,une nouvelle  instance  en cours
 
 
 
+Note >.
+
+On n.a pas la  dErnier partie  .... manque de temps dans Lab 
+Merci 
+
+
+<img width="259" height="273" alt="image" src="https://github.com/user-attachments/assets/1cd846ee-8210-4db9-a600-2c8282c3df4b" />
 
 
 
