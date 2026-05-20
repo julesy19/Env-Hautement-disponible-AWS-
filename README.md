@@ -374,23 +374,132 @@ Lorsque cette application web s'affiche, le flux de données sur le réseau est 
 
 
 
+<img width="942" height="287" alt="image" src="https://github.com/user-attachments/assets/afe3f4cb-e789-4ac3-96e8-0831d8e43439" />
+
+
+
+
+<-------------------->
+
+
+
+
+<img width="942" height="287" alt="image" src="https://github.com/user-attachments/assets/8531fdf0-7a36-4866-8650-8c19c147686c" />
 
 
 
 
 
+<------------------>
+
+
+Dans un nouvel onglet de navigateur web, collez le nom DNS du presse-papiers et appuyez sur Entrée.
+L'équilibreur de charge a transféré votre demande à l'une des instances EC2. L'ID de l'instance et la zone de disponibilité sont visibles en bas de la page web.
+
+
+<img width="800" height="324" alt="image" src="https://github.com/user-attachments/assets/3106a740-cc0b-4d2f-abd9-9c198de21d08" />
+
+
+
+
+<------------------>
+
+
+Rechargez la page  dans le navigateur web. Vous devriez remarquer que l'ID de l'instance et la zone de disponibilité changent parfois entre deux instances.
+
+
+
+<img width="915" height="402" alt="image" src="https://github.com/user-attachments/assets/78836919-7c91-4c7c-9596-b006d7975438" />
+
+
+
+<--------------------->
+
+
+
+Changement de Zone 
+
+
+<img width="843" height="406" alt="image" src="https://github.com/user-attachments/assets/547126e3-ea63-4725-bcc1-70f51be0e05c" />
+
+
+
+
+<---------------------->
+
+
+
+<img width="776" height="409" alt="image" src="https://github.com/user-attachments/assets/cfe51869-b860-4bdb-a8a0-8a17b504871b" />
+
+
+
+
+<----------------->
+
+
+
+<img width="698" height="368" alt="image" src="https://github.com/user-attachments/assets/ff96e9b5-1e21-4f90-861d-797703474e46" />
+
+
+
+<----------------------->
+
+
+
+# Tâche 6 : test de la haute disponibilité
+Votre application est configurée pour être hautement disponible. Vous pouvez vérifier sa haute disponibilité en résiliant l'une des instances EC2.
+Revenez dans l'onglet Console EC2 de votre navigateur Web. Ne fermez pas l'onglet de l'application web. Vous y reviendrez bientôt.
+Dans le volet de navigation de gauche, choisissez Instances.
+Vous allez maintenant résilier l'une des instances d'application web pour simuler une défaillance.
+Sélectionnez l'une des instances Inventory-App. Vous pouvez sélectionner n'importe laquelle.
+Sélectionnez État de l'instance > Résilier l'instance.
+
+Dans la fenêtre Terminate instance? (Résilier l'instance ?), choisissez Résilier.
+D'ici peu, les vérifications de l'état de l'équilibreur de charge vont remarquer que l'instance ne répond pas. L'équilibreur de charge va automatiquement acheminer toutes les demandes vers l'autre instance.
+Revenez à l'onglet de l'application web dans le navigateur web. Rechargez la page  plusieurs fois.
+Vous noterez que la zone de disponibilité affichée en bas de la page est restée la même. Même en cas de défaillance d'une instance, votre application reste disponible.
+Après quelques minutes, Amazon EC2 Auto Scaling détecte à son tour la défaillance de l'instance. Amazon EC2 Auto Scaling a été configuré pour continuer à exécuter deux instances, si bien qu'il va automatiquement lancer une instance de remplacement.
+Revenez à l'onglet de la console Amazon EC2 qui répertorie les instances. Dans la zone en haut à droite, sélectionnez l'icône d'actualisation  toutes les 30 secondes ou jusqu'à ce qu'une nouvelle instance EC2 s'affiche.
+Après quelques minutes, la vérification de l'état de la nouvelle instance devrait devenir saine. L'équilibreur de charge va recommencer à répartir le trafic entre les deux zones de disponibilité. Vous pouvez recharger l'onglet de l'application web pour voir ce qu'il se passe.
+Cette tâche démontre que votre application est désormais hautement disponible.
 
 
 
 
 
+<img width="806" height="237" alt="image" src="https://github.com/user-attachments/assets/7b82178d-0389-4812-93b7-a452fce66a44" />
+
+
+
+<-------------------->
+
+
+
+<img width="706" height="450" alt="image" src="https://github.com/user-attachments/assets/10b08e6f-8786-4305-90de-217ebc8c9e52" />
 
 
 
 
 
+<---------------------->
+
+initialisation d,une nouvelle  instance  en cours 
 
 
+
+<img width="818" height="249" alt="image" src="https://github.com/user-attachments/assets/2df11ec5-bcd1-4390-879f-158ff5d02e76" />
+
+
+
+<------------------->
+
+
+
+<img width="819" height="198" alt="image" src="https://github.com/user-attachments/assets/a71923c9-4237-469b-b45f-889827969582" />
+
+
+
+<---------------->
 
 
 
