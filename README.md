@@ -505,7 +505,8 @@ initialisation d,une nouvelle  instance  en cours
 
 Note >.
 
-On n.a pas la  dErnier partie  .... manque de temps dans Lab 
+On n'a pas  fais la derniere partie  .... manque de temps dans Lab 
+
 Merci 
 
 
